@@ -10,9 +10,13 @@ app.use(cors());
 app.use(express.json());
 
 // Database Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/eventhub', {
+const mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/eventhub';
+console.log('Connecting to MongoDB:', mongoURI);
+
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000,
 })
   .then(() => {
     console.log('MongoDB connected');
@@ -24,7 +28,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/eventhub'
     
   })
   .catch(err => {
-    console.error('MongoDB error:', err);
+    console.error('MongoDB error:', err.message || err);
+    console.error('Make sure MongoDB is installed and running on port 27017, or set MONGODB_URI in backend/.env');
     process.exit(1);
   });
 
