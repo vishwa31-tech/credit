@@ -45,6 +45,12 @@ const eventSchema = new mongoose.Schema(
         details: String,
       }
     ],
+    sections: [
+      {
+        name: String,
+        facilities: [String],
+      }
+    ],
     details: String,
     tags: [String],
     status: {

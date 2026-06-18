@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { eventService, registrationService } from '../services/api';
 
@@ -7,7 +7,7 @@ export default function EventDetail() {
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [registrations, setRegistrations] = useState(1);
-  const [selectedSpecialty, setSelectedSpecialty] = useState('');
+  const [selectedSection, setSelectedSection] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -16,8 +16,9 @@ export default function EventDetail() {
     eventService.getById(id)
       .then(res => {
         setEvent(res.data);
+        const firstSection = res.data.sections?.[0]?.name || '';
         const firstSpecialty = res.data.specialties?.[0]?.name || '';
-        setSelectedSpecialty(firstSpecialty);
+        setSelectedSection(firstSection || firstSpecialty);
         setLoading(false);
       })
       .catch(err => {
@@ -33,10 +34,11 @@ export default function EventDetail() {
       const payload = {
         eventId: event._id,
         ticketCount: registrations,
-        specialty: selectedSpecialty,
+        specialty: event.sections?.length > 0 ? undefined : selectedSection,
+        section: event.sections?.length > 0 ? selectedSection : undefined,
       };
       await registrationService.create(payload);
-      setMessage(`Registration successful for ${registrations} ticket(s).`);
+      setMessage(`Registration successful for ${registrations} ticket(s) in ${selectedSection || 'selected'} section.`);
       setEvent(prev => ({ ...prev, registrations: prev.registrations + registrations }));
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to register for event');
@@ -78,7 +80,19 @@ export default function EventDetail() {
                   </div>
                 </div>
 
-                {event.specialties && event.specialties.length > 0 && (
+                {event.sections && event.sections.length > 0 ? (
+                  <div className="rounded-[1.5rem] bg-slate-100 p-6 shadow-lg">
+                    <h3 className="text-xl font-semibold text-slate-900 mb-4">Sections & Facilities</h3>
+                    <div className="space-y-4">
+                      {event.sections.map((section) => (
+                        <div key={section.name} className="rounded-3xl border border-purple-100 bg-white p-5">
+                          <h4 className="font-semibold text-purple-700">{section.name}</h4>
+                          <p className="mt-2 text-slate-600">Facilities: {section.facilities?.join(', ') || 'No facilities listed'}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : event.specialties && event.specialties.length > 0 ? (
                   <div className="rounded-[1.5rem] bg-slate-100 p-6 shadow-lg">
                     <h3 className="text-xl font-semibold text-slate-900 mb-4">Specialties</h3>
                     <div className="space-y-4">
@@ -90,7 +104,7 @@ export default function EventDetail() {
                       ))}
                     </div>
                   </div>
-                )}
+                ) : null}
 
                 {event.tags && event.tags.length > 0 && (
                   <div className="rounded-[1.5rem] bg-purple-50 p-6">
@@ -115,12 +129,28 @@ export default function EventDetail() {
                     <div className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-purple-700 shadow-sm">{event.capacity - event.registrations} seats left</div>
                   </div>
 
-                  {event.specialties && event.specialties.length > 0 && (
+                  {event.sections && event.sections.length > 0 ? (
+                    <div className="mt-6">
+                      <label className="block text-slate-700 font-semibold mb-2">Choose a Section</label>
+                      <select
+                        value={selectedSection}
+                        onChange={(e) => setSelectedSection(e.target.value)}
+                        className="w-full rounded-3xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      >
+                        {event.sections.map(section => (
+                          <option key={section.name} value={section.name}>{section.name}</option>
+                        ))}
+                      </select>
+                      <p className="mt-3 text-sm text-slate-600">
+                        Facilities: {event.sections.find(s => s.name === selectedSection)?.facilities?.join(', ') || 'Choose a section to view facilities.'}
+                      </p>
+                    </div>
+                  ) : event.specialties && event.specialties.length > 0 ? (
                     <div className="mt-6">
                       <label className="block text-slate-700 font-semibold mb-2">Choose a Specialty</label>
                       <select
-                        value={selectedSpecialty}
-                        onChange={(e) => setSelectedSpecialty(e.target.value)}
+                        value={selectedSection}
+                        onChange={(e) => setSelectedSection(e.target.value)}
                         className="w-full rounded-3xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       >
                         {event.specialties.map(specialty => (
@@ -128,7 +158,7 @@ export default function EventDetail() {
                         ))}
                       </select>
                     </div>
-                  )}
+                  ) : null}
 
                   <div className="mt-6">
                     <label className="block text-slate-700 font-semibold mb-2">Number of Tickets</label>

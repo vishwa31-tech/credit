@@ -80,7 +80,10 @@ export default function AdminPanel() {
             {dashboard.registrations.map(registration => (
               <div key={registration._id} className="p-4 border rounded-lg border-gray-200">
                 <p className="font-semibold text-gray-800">{registration.user?.name || 'User'} registered for {registration.event?.title || 'event'}</p>
-                <p className="text-sm text-gray-600">Tickets: {registration.ticketCount} • Specialty: {registration.specialty || 'N/A'}</p>
+                <p className="text-sm text-gray-600">
+                  Tickets: {registration.ticketCount} • Section: {registration.section || 'N/A'}
+                  {registration.specialty ? ` • Specialty: ${registration.specialty}` : ''}
+                </p>
               </div>
             ))}
           </div>

@@ -17,6 +17,8 @@ const registrationSchema = new mongoose.Schema(
       default: 1,
     },
     specialty: String,
+    section: String,
+    selectedFacilities: [String],
     totalPrice: Number,
     paymentStatus: {
       type: String,

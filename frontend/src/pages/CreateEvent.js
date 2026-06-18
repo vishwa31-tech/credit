@@ -22,6 +22,10 @@ export default function CreateEvent() {
       { name: '', details: '' },
       { name: '', details: '' },
     ],
+    sections: [
+      { name: '', facilities: '' },
+      { name: '', facilities: '' },
+    ],
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -39,6 +43,14 @@ export default function CreateEvent() {
       const specialties = [...prev.specialties];
       specialties[index] = { ...specialties[index], [field]: value };
       return { ...prev, specialties };
+    });
+  };
+
+  const handleSectionChange = (index, field, value) => {
+    setFormData(prev => {
+      const sections = [...prev.sections];
+      sections[index] = { ...sections[index], [field]: value };
+      return { ...prev, sections };
     });
   };
 
@@ -60,6 +72,15 @@ export default function CreateEvent() {
         price: parseFloat(formData.price),
         capacity: parseInt(formData.capacity),
         specialties: formData.specialties.filter(s => s.name.trim()),
+        sections: formData.sections
+          .filter(s => s.name.trim())
+          .map(s => ({
+            name: s.name,
+            facilities: s.facilities
+              .split(',')
+              .map(f => f.trim())
+              .filter(f => f),
+          })),
       };
 
       await eventService.create(payload);
@@ -143,6 +164,33 @@ export default function CreateEvent() {
                     onChange={(e) => handleSpecialtyChange(index, 'details', e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                     placeholder="Short specialty notes"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid gap-4 mb-4">
+            {formData.sections.map((section, index) => (
+              <div key={index} className="grid grid-cols-1 gap-4 p-4 border rounded-lg bg-purple-50">
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">Section {index + 1}</label>
+                  <input
+                    type="text"
+                    value={section.name}
+                    onChange={(e) => handleSectionChange(index, 'name', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="Section name (e.g. VIP, General)"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">Facilities</label>
+                  <input
+                    type="text"
+                    value={section.facilities}
+                    onChange={(e) => handleSectionChange(index, 'facilities', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="Comma separated facilities (e.g. AC, food, Wi-Fi)"
                   />
                 </div>
               </div>

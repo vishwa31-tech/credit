@@ -4,7 +4,7 @@ const Event = require('../models/Event');
 // Register user for event
 exports.registerForEvent = async (req, res) => {
   try {
-    const { eventId, ticketCount, specialty } = req.body;
+    const { eventId, ticketCount, specialty, section, selectedFacilities } = req.body;
 
     const event = await Event.findById(eventId);
     if (!event) return res.status(404).json({ error: 'Event not found' });
@@ -26,6 +26,8 @@ exports.registerForEvent = async (req, res) => {
       event: eventId,
       ticketCount,
       specialty,
+      section,
+      selectedFacilities,
       totalPrice: ticketCount * event.price,
       paymentStatus: 'completed',
     });
