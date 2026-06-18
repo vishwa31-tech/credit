@@ -47,95 +47,96 @@ export default function BusinessDetail() {
   if (!business) return <div className="text-center py-12">Business not found</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <button onClick={() => navigate('/businesses')} className="text-blue-600 hover:text-blue-800 mb-6 font-semibold">
+    <div className="min-h-screen bg-gradient-to-b from-cyan-950 via-slate-100 to-white text-slate-900">
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        <button onClick={() => navigate('/businesses')} className="text-cyan-700 hover:text-cyan-900 mb-6 font-semibold">
           ← Back to Services
         </button>
 
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-500 to-teal-500 h-80 flex items-center justify-center">
-            <span className="text-white text-8xl">🏢</span>
+        <div className="overflow-hidden rounded-[2rem] bg-white shadow-2xl shadow-cyan-200/40">
+          <div className="relative h-96 bg-gradient-to-br from-sky-500 via-cyan-500 to-emerald-500 flex items-center justify-center text-white text-8xl">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.18),_transparent_40%)]" />
+            🏢
           </div>
 
-          <div className="p-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">{business.name}</h1>
-            <div className="flex items-center gap-2 mb-6">
-              <span className="text-yellow-500 text-2xl">{'⭐'.repeat(Math.round(business.rating))}</span>
-              <span className="text-gray-600">({business.rating.toFixed(1)}) {business.reviews.length} reviews</span>
+          <div className="p-10">
+            <h1 className="text-5xl font-bold text-slate-900 mb-3">{business.name}</h1>
+            <div className="flex flex-wrap items-center gap-4 mb-8 text-slate-600">
+              <span className="text-yellow-500 text-3xl">{'⭐'.repeat(Math.round(business.rating))}</span>
+              <span>({business.rating.toFixed(1)})</span>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">{business.reviews.length} reviews</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div>
-                <h2 className="text-xl font-bold text-gray-700 mb-4">Business Information</h2>
-                <div className="space-y-3">
-                  <p><strong>Category:</strong> <span className="capitalize text-blue-600">{business.category}</span></p>
+            <div className="grid gap-8 lg:grid-cols-2 mb-10">
+              <div className="rounded-[1.5rem] bg-slate-50 p-8 shadow-lg">
+                <h2 className="text-2xl font-semibold text-slate-900 mb-5">Business Info</h2>
+                <div className="space-y-3 text-slate-700">
+                  <p><strong>Category:</strong> <span className="capitalize text-cyan-700">{business.category}</span></p>
                   <p><strong>Email:</strong> {business.email}</p>
                   <p><strong>Phone:</strong> {business.phone}</p>
                   <p><strong>Address:</strong> {business.address}, {business.city}</p>
-                  {business.website && <p><strong>Website:</strong> <a href={business.website} className="text-blue-600 hover:underline">{business.website}</a></p>}
+                  {business.website && (
+                    <p><strong>Website:</strong> <a href={business.website} className="text-cyan-700 hover:underline">{business.website}</a></p>
+                  )}
                 </div>
               </div>
 
-              <div className="bg-blue-50 p-6 rounded-lg">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Pricing</h2>
-                <div className="space-y-3">
-                  <p><strong>Minimum Budget:</strong> <span className="text-2xl font-bold text-blue-600">${business.pricing?.minBudget || 'N/A'}</span></p>
-                  <p><strong>Maximum Budget:</strong> <span className="text-2xl font-bold text-blue-600">${business.pricing?.maxBudget || 'N/A'}</span></p>
+              <div className="rounded-[1.5rem] bg-cyan-50 p-8 shadow-lg border border-cyan-100">
+                <h2 className="text-2xl font-semibold text-slate-900 mb-5">Pricing</h2>
+                <div className="space-y-4 text-slate-700">
+                  <p><strong>Min Budget:</strong> <span className="text-3xl font-bold text-cyan-700">${business.pricing?.minBudget || 'N/A'}</span></p>
+                  <p><strong>Max Budget:</strong> <span className="text-3xl font-bold text-cyan-700">${business.pricing?.maxBudget || 'N/A'}</span></p>
                 </div>
               </div>
             </div>
 
             {business.description && (
-              <div className="mb-8">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">About</h2>
-                <p className="text-gray-600 leading-relaxed">{business.description}</p>
+              <div className="mb-10 rounded-[1.5rem] bg-slate-50 p-8 shadow-lg">
+                <h2 className="text-2xl font-semibold text-slate-900 mb-4">About</h2>
+                <p className="text-slate-600 leading-relaxed">{business.description}</p>
               </div>
             )}
 
             {business.services && business.services.length > 0 && (
-              <div className="mb-8">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Services Offered</h2>
-                <div className="flex flex-wrap gap-2">
+              <div className="mb-10 rounded-[1.5rem] bg-white p-8 shadow-lg border border-cyan-100">
+                <h2 className="text-2xl font-semibold text-slate-900 mb-5">Services Offered</h2>
+                <div className="flex flex-wrap gap-3">
                   {business.services.map(service => (
-                    <span key={service} className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold">
-                      {service}
-                    </span>
+                    <span key={service} className="rounded-full bg-cyan-100 px-4 py-2 text-sm font-semibold text-cyan-800">{service}</span>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Reviews Section */}
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Customer Reviews</h2>
-
+            <div className="mb-10 border-t border-slate-200 pt-10">
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Customer Reviews</h2>
               {business.reviews && business.reviews.length > 0 ? (
-                <div className="space-y-6 mb-8">
+                <div className="space-y-6">
                   {business.reviews.map((review, idx) => (
-                    <div key={idx} className="bg-gray-50 p-4 rounded-lg">
-                      <div className="flex justify-between items-start mb-2">
-                        <span className="font-semibold text-gray-800">{review.user?.name || 'Anonymous'}</span>
+                    <div key={idx} className="rounded-[1.5rem] bg-slate-50 p-6 shadow-sm">
+                      <div className="flex justify-between items-start gap-4 mb-3">
+                        <span className="font-semibold text-slate-900">{review.user?.name || 'Anonymous'}</span>
                         <span className="text-yellow-500">{'⭐'.repeat(review.rating)}</span>
                       </div>
-                      <p className="text-gray-600">{review.comment}</p>
-                      <p className="text-sm text-gray-500 mt-2">{new Date(review.createdAt).toLocaleDateString()}</p>
+                      <p className="text-slate-600">{review.comment}</p>
+                      <p className="mt-3 text-sm text-slate-500">{new Date(review.createdAt).toLocaleDateString()}</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500 mb-8">No reviews yet. Be the first to review!</p>
+                <p className="text-slate-600">No reviews yet. Be the first to share your experience!</p>
               )}
+            </div>
 
-              {/* Add Review Form */}
-              <div className="bg-purple-50 p-6 rounded-lg">
-                <h3 className="text-lg font-bold text-gray-800 mb-4">Leave a Review</h3>
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold mb-2">Rating:</label>
+            <div className="rounded-[1.5rem] bg-cyan-50 p-8 shadow-lg border border-cyan-100">
+              <h3 className="text-2xl font-bold text-slate-900 mb-5">Leave a Review</h3>
+              <div className="grid gap-6">
+                <div>
+                  <label className="block text-slate-700 font-semibold mb-2">Rating</label>
                   <select
                     value={reviewRating}
                     onChange={(e) => setReviewRating(parseInt(e.target.value))}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full rounded-3xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                   >
                     <option value={5}>⭐⭐⭐⭐⭐ Excellent</option>
                     <option value={4}>⭐⭐⭐⭐ Good</option>
@@ -144,19 +145,19 @@ export default function BusinessDetail() {
                     <option value={1}>⭐ Very Poor</option>
                   </select>
                 </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold mb-2">Comment:</label>
+                <div>
+                  <label className="block text-slate-700 font-semibold mb-2">Comment</label>
                   <textarea
                     value={reviewComment}
                     onChange={(e) => setReviewComment(e.target.value)}
                     placeholder="Share your experience..."
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    rows="4"
+                    className="w-full rounded-3xl border border-slate-300 bg-white px-4 py-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    rows="5"
                   />
                 </div>
                 <button
                   onClick={handleAddReview}
-                  className="bg-purple-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-purple-700 transition"
+                  className="rounded-full bg-cyan-700 px-6 py-3 text-sm font-bold uppercase tracking-[0.15em] text-white shadow-xl shadow-cyan-500/30 hover:bg-cyan-600 transition"
                 >
                   Submit Review
                 </button>

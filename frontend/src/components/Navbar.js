@@ -29,38 +29,44 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 py-4">
-        <div className="flex justify-between items-center mb-4">
-          <Link to="/" className="text-2xl font-bold flex items-center gap-2">
-            🎉 EventHub
-          </Link>
-          
-          <div className="flex items-center gap-4">
+    <nav className="relative sticky top-0 z-50">
+      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-r from-purple-700 via-fuchsia-600 to-pink-500 blur-3xl opacity-80" />
+      <div className="relative border-b border-white/20 bg-slate-950/5 backdrop-blur-xl shadow-2xl">
+        <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="bg-white/15 text-white rounded-2xl px-4 py-2 shadow-lg shadow-fuchsia-500/20 font-semibold uppercase tracking-wide text-xs">
+              EventHub
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-white">The future of events, services, and jobs</h1>
+              <p className="text-sm text-slate-200/80">A bold new experience for organizers, vendors, and guests.</p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 justify-end">
             {user ? (
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-2 bg-white bg-opacity-20 px-4 py-2 rounded-lg hover:bg-opacity-30 transition"
+                  className="flex items-center gap-2 bg-white/15 text-white px-4 py-2 rounded-full hover:bg-white/25 transition"
                 >
                   <span className="text-lg">👤</span>
                   <span className="hidden sm:inline">{user.name}</span>
                 </button>
-                
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white text-gray-800 rounded-lg shadow-xl">
+                  <div className="absolute right-0 mt-2 w-44 rounded-2xl bg-slate-950 text-slate-100 shadow-2xl border border-white/10 overflow-hidden">
                     <button
                       onClick={() => {
                         navigate('/');
                         setDropdownOpen(false);
                       }}
-                      className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-3 hover:bg-white/5"
                     >
                       Profile
                     </button>
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 hover:bg-gray-100 border-t"
+                      className="block w-full text-left px-4 py-3 hover:bg-white/5"
                     >
                       Logout
                     </button>
@@ -69,42 +75,36 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex gap-2">
-                <Link to="/login" className="bg-white text-purple-600 px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition text-sm">
+                <Link to="/login" className="bg-white text-slate-900 px-4 py-2 rounded-full font-semibold hover:shadow-lg transition">
                   Login
                 </Link>
-                <Link to="/signup" className="bg-transparent border-2 border-white text-white px-4 py-2 rounded-lg font-bold hover:bg-white hover:text-purple-600 transition text-sm">
+                <Link to="/signup" className="border border-white/30 text-white px-4 py-2 rounded-full font-semibold hover:bg-white/10 transition">
                   Signup
                 </Link>
               </div>
             )}
           </div>
         </div>
-        
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-2 text-sm md:text-base">
-          <Link to="/" className="hover:text-gray-200 transition font-semibold">Home</Link>
-          <Link to="/events" className="hover:text-gray-200 transition font-semibold">Events</Link>
-          <Link to="/businesses" className="hover:text-gray-200 transition font-semibold">Services</Link>
-          <Link to="/jobs" className="hover:text-gray-200 transition font-semibold">Jobs</Link>
-          <Link to="/news" className="hover:text-gray-200 transition font-semibold">News</Link>
-          <div className="flex gap-1">
-            {user?.role === 'vendor' && (
-              <>
-                <Link to="/events/create" className="bg-white text-purple-600 px-2 py-1 rounded text-xs font-bold hover:bg-gray-100 transition">
-                  + Event
-                </Link>
-                <Link to="/businesses/create" className="bg-white text-purple-600 px-2 py-1 rounded text-xs font-bold hover:bg-gray-100 transition">
-                  + Service
-                </Link>
-                <Link to="/jobs/create" className="bg-white text-purple-600 px-2 py-1 rounded text-xs font-bold hover:bg-gray-100 transition">
-                  + Job
-                </Link>
-              </>
-            )}
-            {user?.role === 'admin' && (
-              <Link to="/admin" className="bg-white text-purple-600 px-2 py-1 rounded text-xs font-bold hover:bg-gray-100 transition">
-                Admin
-              </Link>
-            )}
+
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-3 text-sm text-slate-100/85">
+            <Link to="/" className="rounded-full px-4 py-2 bg-white/10 hover:bg-white/20 transition text-center">Home</Link>
+            <Link to="/events" className="rounded-full px-4 py-2 bg-white/10 hover:bg-white/20 transition text-center">Events</Link>
+            <Link to="/businesses" className="rounded-full px-4 py-2 bg-white/10 hover:bg-white/20 transition text-center">Services</Link>
+            <Link to="/jobs" className="rounded-full px-4 py-2 bg-white/10 hover:bg-white/20 transition text-center">Jobs</Link>
+            <Link to="/news" className="rounded-full px-4 py-2 bg-white/10 hover:bg-white/20 transition text-center">News</Link>
+            <div className="flex flex-wrap justify-center gap-2">
+              {user?.role === 'vendor' && (
+                <>
+                  <Link to="/events/create" className="rounded-full bg-fuchsia-500 px-3 py-2 text-xs font-bold uppercase tracking-wide hover:bg-fuchsia-400 transition">+ Event</Link>
+                  <Link to="/businesses/create" className="rounded-full bg-cyan-500 px-3 py-2 text-xs font-bold uppercase tracking-wide hover:bg-cyan-400 transition">+ Service</Link>
+                  <Link to="/jobs/create" className="rounded-full bg-violet-500 px-3 py-2 text-xs font-bold uppercase tracking-wide hover:bg-violet-400 transition">+ Job</Link>
+                </>
+              )}
+              {user?.role === 'admin' && (
+                <Link to="/admin" className="rounded-full bg-slate-100/15 px-3 py-2 text-xs font-bold uppercase tracking-wide hover:bg-slate-100/25 transition">Admin</Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
