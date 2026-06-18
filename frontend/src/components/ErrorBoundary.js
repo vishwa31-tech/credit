@@ -25,7 +25,7 @@ export default function ErrorBoundary({ children }) {
           </button>
         </div>
       </div>
-    );
+    );  
   }
 
   return children;
