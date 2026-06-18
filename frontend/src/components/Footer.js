@@ -24,10 +24,10 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4 uppercase tracking-[0.18em] text-slate-200">Support</h4>
             <ul className="space-y-3 text-slate-300">
-              <li><a href="#" className="hover:text-white transition">Contact</a></li>
-              <li><a href="#" className="hover:text-white transition">FAQ</a></li>
-              <li><a href="#" className="hover:text-white transition">Terms</a></li>
-              <li><a href="#" className="hover:text-white transition">Privacy</a></li>
+              <li to="/"><a href="#" className="hover:text-white transition">Contact</a></li>
+              <li to="/"><a href="#" className="hover:text-white transition">FAQ</a></li>
+              <li to="/"><a href="#" className="hover:text-white transition">Terms</a></li>
+              <li to="/"><a href="#" className="hover:text-white transition">Privacy</a></li>
             </ul>
           </div>
           <div>
