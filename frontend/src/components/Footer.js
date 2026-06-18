@@ -33,8 +33,8 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4 uppercase tracking-[0.18em] text-slate-200">Follow Us</h4>
             <div className="flex gap-4 text-3xl">
-              <a href="#" className="hover:text-pink-400 transition">📘</a>
-              <a href="#" className="hover:text-sky-400 transition">𝕏</a>
+              <a href="#" className="hover:text-pink-400 transition">Home</a>
+              <a href="#" className="hover:text-sky-400 transition">About</a>
               <a href="#" className="hover:text-pink-300 transition">📷</a>
               <a href="#" className="hover:text-rose-400 transition">▶️</a>
             </div>
