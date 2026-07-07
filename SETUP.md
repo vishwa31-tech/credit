@@ -138,10 +138,10 @@ The frontend will run on `http://localhost:3000`
 - `GET /api/news/:id` - Get news details
 - `POST /api/news` - Create news (protected, admin)
 
-### Registrations
-- `POST /api/registrations` - Register for event (protected)
-- `GET /api/registrations/my-registrations` - Get user registrations (protected)
-- `PUT /api/registrations/:id/cancel` - Cancel registration (protected)
+### Role Requests / Registrations
+- `POST /api/registrations` - Submit role application / registration (protected)
+- `GET /api/registrations/my-requests` - Get user's role applications (protected)
+- `DELETE /api/registrations/:id` - Withdraw a pending role application (protected)
 
 ## Project File Structure
 
